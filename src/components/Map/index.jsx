@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleApiWrapper, Map } from 'google-maps-react';
+import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 
 export const MapContainer = (props) => {
   const [map, setMap] = useState(null)
