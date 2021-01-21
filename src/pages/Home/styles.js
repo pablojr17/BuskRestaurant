@@ -27,7 +27,7 @@ export const Search = styled.section`
 `;
 
 export const Logo = styled.img`
-  margin: 15px;
+  /* margin: 15px; */
 `;
 
 export const Carousel = styled(Slider)`
