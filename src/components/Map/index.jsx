@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 import { setRestaurants } from '../../redux/modules/restaurants';
 
 export const MapContainer = (props) => {
   const dispatch = useDispatch();
+  const { restaurants } = useSelector((state) => state.restaurants);
   const [map, setMap] = useState(null)
   const { google, query } = props;
 
@@ -19,14 +20,13 @@ export const MapContainer = (props) => {
 
     const request = {
       location: map.center,
-      radius: '1500',
+      radius: '200000',
       type: ['restaurant'],
       query,
     };
 
     service.nearbySearch(request, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log('restaurants>>>', results );
         dispatch(setRestaurants(results));
       }
     });
@@ -37,13 +37,12 @@ export const MapContainer = (props) => {
 
     const request = {
       location: center,
-      radius: '20000',
+      radius: '200000',
       type: ['restaurant']
     };
 
     service.nearbySearch(request, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log('restaurants>>>', results );
         dispatch(setRestaurants(results));
       }
     });
@@ -54,8 +53,24 @@ export const MapContainer = (props) => {
     searchNearby(map, map.center);
   }
 
-  return <Map google={google} centerAroundCurrentLocation onReady={onMapReady} onRecenter={onMapReady} />
-
+  return (
+      <Map google={google} 
+           centerAroundCurrentLocation 
+           onReady={onMapReady} 
+           onRecenter={onMapReady}
+      >
+        {restaurants.map((restaurant) => (
+          <Marker 
+            key={restaurant.place_id} 
+            name={restaurant.name}
+            position={{
+              lat: restaurant.geometry.location.lat(),
+              lng: restaurant.geometry.location.lng(),
+            }}
+          />
+        ))}
+      </Map>
+  )
 }
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
