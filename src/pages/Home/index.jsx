@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import TextField, {Input} from '@material/react-text-field';
 import MaterialIcon from '@material/react-material-icon';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo1.png';
 import restaurante from '../../assets/restaurante.png';
 import { Card, RestaurantCard, Modal, Map, Loader, Skeleton } from '../../components';
 
